@@ -1,0 +1,156 @@
+@startuml
+package interfaces {
+
+    +interface Actionable extends Nameable{
+        +{field}Actionable setAction(Action newAction)
+        +{field}Action getAction()
+    }
+    +interface Movable {
+            +{method}Movable setLocation(Location newLocation)
+            +{method}Location getLocation()
+        }
+
+    +interface Nameable {
+        +{method}String getName()
+        +{method}Nameable setName(String newName)
+    }
+
+    +interface Describable {
+        +{method}Describable describe()
+    }
+}
+package utils {
+    +class CachedNames {
+        -{field}static ArrayList<String> usedNames
+        +{method}static boolean isNotCached(String name)
+        +{method}static void cacheName() // модификатор доступа по дефолту специально
+    }
+    +class Validation {
+        -{field}static final String UNDEFINED_RESULT
+        -{method}static boolean isValidName(String name)
+        +{method}static String validateName(String name)
+    }
+}
+package locations {
+    +abstract class Location implements Describable{
+        -{field}final double longitude
+        -{field}final double width
+        +{method}double[] getCoordinates()
+        +{method}Location(double longitude, double width)
+    }
+    +class Arkham extends Location {
+        +{method}BrigArkham()
+    }
+    +class BayMcMerdo extends Location{
+        +{method}BayMcMerdo()
+    }
+
+    +class Base extends Location{
+        +{method}Base()
+    }
+
+    +class LakesCamp extends Location {
+        +{method}LakesCamp()
+    }
+}
+package enums {
+    +enum MainStoryTimeLines implements Describable{
+        +{field}SIX_PM("Шесть часов вечера")
+        +{field}HALF_SEVEN_PM("Пол седьмого вечера")
+        +{field}SEVEN_PM("Семь вечера")
+        +{field}HALF_EIGHT_PM("Пол восьмого вечера")
+        +{field}EIGHT_PM("Восемь вечера")
+        +{field}NINE_PM("Девять вечера")
+        +{field}TEN_PM("Десять вечера")
+        +{field}ELEVEN_PM("Одиннадцать вечера")
+        +{field}TWELVE_PM("Двенадцать ночи")
+        +{field}ONE_AM("Час ночи")
+        +{field}TWO_AM("Два часа ночи")
+        +{field}THREE_AM("Три часа ночи")
+        +{field}FOUR_AM("Четыре часа утра")
+        +{field}FIVE_AM("Пять часов утра")
+        +{field}SIX_AM("Шесть часов утра")
+
+        -{field}String description
+        -{method}MainStoryTimeLines(String description)
+    }
+
+    +enum Action implements Describable{
+        +{field}TREMBLING_IN_FEAR("дрожит в страхе")
+        +{field}DOING_NOTHING("ничего не делает")
+        +{field}FLYING_IN_PLANE("летит в самолете")
+        +{field}RESTING("отдыхает")
+        +{field}PREPARING_FOR_FLIGHT("готовится к полёту")
+        +{field}PARTICIPATING_IN_MEETING("принимает участие в совещании")
+        +{field}TALKING_BY_RADIO("говорит по радио")
+        +{field}FEELING_DETERMINED("преисполняется решимостью действовать")
+
+        -{field}String description
+        -{method}Action(String startActionDescription, String endActionDescription)
+    }
+}
+
+package characters {
+    +abstract class Person implements Movable, Actionable{
+        -{field}final String profession
+        -{field}final String name
+        -{field}Action action
+        -{field}Location location
+        +{method}String getProfession()
+        +{method}Person callByRadio(Person someone)
+        +{method}Person(String name, Location startLocation, String profession)
+    }
+    Location o-- Person
+
+    +class Geologist extends Person {
+        +{method}Geologist(String name, Location startLocation)
+    }
+    Location o-- Geologist
+
+    +class Sailor extends Person {
+        +{method}Sailor(String name, Location startLocation)
+    }
+    Location o-- Sailor
+
+    +class Biologist extends Person {
+        +{method}Biologist(String name, Location startLocation)
+    }
+    Location o-- Biologist
+
+    +class Physicist extends Person {
+        +{method}Physicist(String name, Location startLocation)
+    }
+    Location o-- Physicist
+}
+
+package planes {
+    +abstract class Plane implements Movable, Describable{
+        -{field}Location location
+        -{field}boolean inFlight
+        -{field}ArrayList<Person> passengers
+        -{field}Location flightDestination
+        +{method}Plane(Location startLocation)
+        +{method}Plane addPassenger(Person passenger)
+        +{method}Plane clearPassengers()
+        +{method}Plane fly(Location newLocation)
+        +{method}Plane land()
+        +{method}Plane(Location startLocation)
+    }
+}
+package Stories {
+    +class MainStory {
+        -{field}static Person dayer = new Geologist("Дайер", new Base()) // MainCharacter
+        -{field}static Person goonarson = new Sailor("Гунарсон", new BayMcMerdo())
+        -{field}static Person larsen = new Sailor("Ларсен", new BayMcMerdo())
+        -{field}static Person douglas = new Sailor("Дуглас", new BrigArkham())
+        -{field}static Person sherman = new Physicist("Шерман", new BayMcMerdo())
+        -{field}static Person torfinsen = new Sailor("Торфинсен", new BrigArkham())
+        -{field}static Person lake = new Biologist("Лейк", new LakesCamp())
+        -{field}static Plane fifth = new Plane(new BayMcMerdo())
+        -{method}MainStory()
+        +{method}static void start()
+    }
+}
+
+
+@enduml
