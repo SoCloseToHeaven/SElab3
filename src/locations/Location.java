@@ -5,13 +5,14 @@ import interfaces.Describable;
 import java.util.Arrays;
 import java.util.Objects;
 
-abstract public class Location implements Describable {
+public class Location implements Describable {
     private double longtitude;
     private double width;
 
+
     private final String description;
 
-    public Location(double longtitude, double width, String description) {
+    public Location(String description, double longtitude, double width) {
         this.longtitude = longtitude;
         this.width = width;
         this.description = description + ", расположенный по координатам: " + Arrays.toString(this.getCoordinates());
@@ -25,11 +26,10 @@ abstract public class Location implements Describable {
 
     @Override
     public boolean equals(Object location) {
-        if (location == null)
-            return false;
-        if (this.getClass() == location.getClass())
-            return true;
-        return false;
+        if (location == null) return false;
+        if (this.getClass() != location.getClass()) return false;
+        if (this.describe().intern() != ((Location) location).describe().intern()) return false;
+        return true;
     }
 
     @Override
@@ -39,6 +39,6 @@ abstract public class Location implements Describable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(longtitude, width);
+        return Objects.hash(longtitude, width, description);
     }
 }

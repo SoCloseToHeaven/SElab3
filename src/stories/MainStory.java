@@ -6,14 +6,18 @@ import enums.*;
 import planes.Plane;
 
 public class MainStory {
-    static Person dayer = new Geologist("Дайер", new Base()); //MainCharacter
-    static Person goonarson = new Sailor("Гунарсон", new BayMcMerdo());
-    static Person larsen = new Sailor("Ларсен", new BayMcMerdo());
-    static Person douglas = new Sailor("Дуглас", new Arkham());
-    static Person sherman = new Physicist("Шерман", new BayMcMerdo());
-    static Person torfinsen = new Sailor("Торфинсен", new Arkham());
-    static Person lake = new Biologist("Лейк", new LakesCamp());
-    static Plane fifthplane = new Plane(new BayMcMerdo()) {
+    static Location base = new Location("База Дайера", 13.87, 44.55);
+    static Location bayMcMerdo = new Location("Залив Мак-Мердо", 1.55, 78.35);
+    static Location arkham = new Location("Бриг Архэм", 47.2532, 97.543);
+    static Location lakesCamp = new Location("Лагерь Лейка", 84.236, 11.243);
+    static Person dayer = new Geologist("Дайер", base); //MainCharacter
+    static Person goonarson = new Sailor("Гунарсон", bayMcMerdo);
+    static Person larsen = new Sailor("Ларсен", bayMcMerdo);
+    static Person douglas = new Sailor("Дуглас", arkham);
+    static Person sherman = new Physicist("Шерман", bayMcMerdo);
+    static Person torfinsen = new Sailor("Торфинсен", arkham);
+    static Person lake = new Biologist("Лейк", lakesCamp);
+    static Plane fifthplane = new Plane(bayMcMerdo) {
         @Override
         public String describe() {
             return "Огромный пятый самолёт команды, сконструированный по специальному заказу " +
@@ -42,7 +46,7 @@ public class MainStory {
                     dayer.callByRadio(lake);
                 }
                 case HALF_EIGHT_PM ->
-                    fifthplane.addPassenger(sherman).addPassenger(goonarson).addPassenger(larsen).fly(new Base());
+                    fifthplane.addPassenger(sherman).addPassenger(goonarson).addPassenger(larsen).fly(base);
                 case EIGHT_PM, NINE_PM, TEN_PM, ELEVEN_PM -> sherman.callByRadio(dayer);
                 case TWELVE_PM -> {
                     fifthplane.land();

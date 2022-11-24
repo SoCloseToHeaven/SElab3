@@ -19,8 +19,8 @@ public final class Validation {
         }
     }
 
-    private static boolean isValidName(String nameOrProfession) {
-        return Pattern.matches("^[А-Я][а-я]*$", nameOrProfession);
+    private static boolean isValidName(String name) {
+        return Pattern.matches("^[А-Я][а-я]*$", name);
     }
 
     @Override
