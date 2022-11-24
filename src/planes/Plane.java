@@ -86,4 +86,13 @@ abstract public class Plane implements Describable, Movable {
     public int hashCode() {
         return Objects.hash(location, flightDestination, inFlight, passengers);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        if (this.describe().intern() != ((Plane) obj).describe().intern()) return false;
+        if (this.getLocation().equals(((Plane) obj).getLocation())) return false;
+        return true;
+    }
 }
